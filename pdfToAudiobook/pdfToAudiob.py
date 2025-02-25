@@ -4,12 +4,14 @@
 import pyttsx3
 import PyPDF2
 from PyPDF2 import PdfReader
-
 book = open('oopbook.pdf', 'rb')
 pdfReader = PdfReader(book)
 pages = len(pdfReader.pages)
 speaker = pyttsx3.init()
-page = pdfReader.pages[7]
-text = page.extract_text()
-speaker.say(text)
-speaker.runAndWait()
+userPage = input("Enter what page you would like to read: ")
+pageToRead = int(userPage)
+if pageToRead >= 0 and pageToRead < pages:
+    page = pdfReader.pages[pageToRead]
+    text = page.extract_text()
+    speaker.say(text)
+    speaker.runAndWait()
