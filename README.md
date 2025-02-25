@@ -1,0 +1,2 @@
+# CodingProjects
+Miscellaneous coding projects
