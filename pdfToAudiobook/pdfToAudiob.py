@@ -1,6 +1,7 @@
 #A program to turn a pdf into an audiobook
 #need to install pyttsx3 python package
 #also need to install pypdf2 python package
+#followed tutorial to learn basic functionality of python packages but added new features on my own
 import pyttsx3
 import PyPDF2
 from PyPDF2 import PdfReader
