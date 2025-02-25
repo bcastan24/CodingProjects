@@ -3,11 +3,13 @@
 #also need to install pypdf2 python package
 import pyttsx3
 import PyPDF2
+from PyPDF2 import PdfReader
+
 book = open('oopbook.pdf', 'rb')
-pdfReader = PyPDF2.PdfFileReader(book)
-pages = pdfReader.numPages
+pdfReader = PdfReader(book)
+pages = len(pdfReader.pages)
 speaker = pyttsx3.init()
-page = pdfReader.getPage(7)
-text = page.extractText()
+page = pdfReader.pages[7]
+text = page.extract_text()
 speaker.say(text)
 speaker.runAndWait()
