@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Instant Pot Mac and Cheese</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <section>
+      <h1>Instant Pot Mac and Cheese</h1>
+      <p>This five-ingredient Instant Pot mac and cheese recipe produces rich, creamy results in a fraction of the time of traditional methods—and there’s only one pot to clean!</p>
+    </section>
+
+    <section>
+      <h2>Ingredients</h2>
+      <ul>
+        <li>1 Pound elbow macaroni</li>
+        <li>Kosher salt</li>
+        <li>One 12-ounce can evaporated milk</li>
+        <li>3 tablespoons unsalted butter</li>
+        <li>3 cups shredded mild cheddar cheese</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Instructions</h2>
+      <ol>
+        <li>Combine macaroni and 4 cups of water in Instant Pot. Set to pressure cook on high for 4 minutes.</li>
+        <li>After cycle is done, remove lid and switch to low saute setting.</li>
+        <li>Stir in evaporated milk, butter and 1/4 cup of water.</li>
+        <li>Then add cheddar, a little at a time, while continuosly stirring until cheese is fully melted. Serve hot.</li>
+      </ol>
+      <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2017/2/28/0/FNK_Instapot-Mac-and-Cheese-H-0046_s4x3.jpg.rend.hgtvcom.1280.720.suffix/1488313700975.webp" alt="Picture of the Mac and Cheese">
+    </section>
+  </body>
+</html>
