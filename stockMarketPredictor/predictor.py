@@ -9,4 +9,5 @@ import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 
+apikey = "0VCUU9FT5X9BDFC2"
 
