@@ -114,6 +114,42 @@ class OurNeuralNetwork:
                 if epoch % 10 == 0:
                     yPreds = np.apply_along_axis(self.feedForward, 1, data)
                     loss = mseLoss(allYTrues, yPreds)
-                    print("Epoch %d loss: %.3f" % (epoch, loss))
+                    #print("Epoch %d loss: %.3f" % (epoch, loss))
+
+
+'''
+I will be training the neural network to recognize a good baseball hitter
+
+The data I will be feeding it is 
+ops+ this season minus 100 (the average ops+ in the major leagues) 
+and avgerage exit velocity - 89 (89 is the average exit velocity in the mlb) 
+1 will be a good hitter and 0 will be a bad hitter
+'''
+data = np.array([
+    [110, 6.2], #Aaron Judge
+    [-53, 2.5], #Andrew Vaughn
+    [95, 2.9], #Cal Raleigh
+    [-46, -4.7], #Nick Madrigal 2024
+    [78, 5.7], #Shohei Ohtani
+    [-34, -6.4], #Jarrod Dyson 2019
+])
+allYTrues = np.array([
+    1, #Aaron Judge
+    0, #Andrew Vaughn
+    1, #Cal Raleigh
+    0, #Nick Madrigal 2024
+    1, #Shohei Ohtani
+    0, #Jarrod Dyson 2019
+])
+
+#training the neural network
+network = OurNeuralNetwork()
+network.train(data, allYTrues)
+
+#make some predictions
+jamesWood = np.array([66, 4.6])
+michaelATaylor = np.array([-8, -1])
+print("James Wood: %.3f" % network.feedForward(jamesWood))
+print("Michael A Taylor: %.3f" % network.feedForward(michaelATaylor))
 
 
