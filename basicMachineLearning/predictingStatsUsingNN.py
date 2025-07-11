@@ -2,7 +2,7 @@
 In this file I will be using the knowledge that I learned from goodOrBadHitter.py and predictingBaseballStats.py
 to predict WAR of a baseball player using a simple neural network
 
-This is not going to be an optimized neural network, so I will only train it on 30 players with 4 years of stats for
+This is not going to be an optimized neural network, so I will only train it on 10 players with 4 years of stats for
 each player
 
 I am going to feed the neural network WAR, OPS, BABIP, and wRC+ over four years and use that to make a prediction of WAR
@@ -306,12 +306,77 @@ def nextSeason(player):
 batting = batting.groupby("IDfg").apply(nextSeason, include_groups=False)
 
 #Cleaning Data
-#taking out columns that we don't need to run through ML
+#selecting the columns that we need to run through NN
 selectedColumns = ["WAR", "OPS", "BABIP", "wRC+"]
 #makes it so every number is between 1 and 0
 scaler = MinMaxScaler()
 batting[selectedColumns] = scaler.fit_transform(batting[selectedColumns].astype("float32"))
 
-#batting[selectedColumns].to_csv("test.csv")
+#turning the relevent data into an array
 releventData = batting[selectedColumns].copy()
 arrayOfReleventData = np.array(releventData)
+
+'''making training sets, I was going to try to set up a for loop to automatically do this but the fact that I am
+skipping a set of data every 4 data sets made it too complicated so it was just easier for me to write it 
+out manually 20 times'''
+set1 = arrayOfReleventData[0]
+set1 = np.concatenate((set1, arrayOfReleventData[1]))
+set1 = np.concatenate((set1, arrayOfReleventData[2]))
+set1 = np.concatenate((set1, arrayOfReleventData[3]))
+
+set2 = arrayOfReleventData[5]
+set2 = np.concatenate((set1, arrayOfReleventData[6]))
+set2 = np.concatenate((set1, arrayOfReleventData[7]))
+set2 = np.concatenate((set1, arrayOfReleventData[8]))
+
+set3 = arrayOfReleventData[10]
+set3 = np.concatenate((set1, arrayOfReleventData[11]))
+set3 = np.concatenate((set1, arrayOfReleventData[12]))
+set3 = np.concatenate((set1, arrayOfReleventData[13]))
+
+set4 = arrayOfReleventData[15]
+set4 = np.concatenate((set1, arrayOfReleventData[16]))
+set4 = np.concatenate((set1, arrayOfReleventData[17]))
+set4 = np.concatenate((set1, arrayOfReleventData[18]))
+
+set5 = arrayOfReleventData[20]
+set5 = np.concatenate((set1, arrayOfReleventData[21]))
+set5 = np.concatenate((set1, arrayOfReleventData[22]))
+set5 = np.concatenate((set1, arrayOfReleventData[23]))
+
+set6 = arrayOfReleventData[25]
+set6 = np.concatenate((set1, arrayOfReleventData[26]))
+set6 = np.concatenate((set1, arrayOfReleventData[27]))
+set6 = np.concatenate((set1, arrayOfReleventData[28]))
+
+set7 = arrayOfReleventData[30]
+set7 = np.concatenate((set1, arrayOfReleventData[31]))
+set7 = np.concatenate((set1, arrayOfReleventData[32]))
+set7 = np.concatenate((set1, arrayOfReleventData[33]))
+
+set8 = arrayOfReleventData[35]
+set8 = np.concatenate((set1, arrayOfReleventData[36]))
+set8 = np.concatenate((set1, arrayOfReleventData[37]))
+set8 = np.concatenate((set1, arrayOfReleventData[38]))
+
+set9 = arrayOfReleventData[40]
+set9 = np.concatenate((set1, arrayOfReleventData[41]))
+set9 = np.concatenate((set1, arrayOfReleventData[42]))
+set9 = np.concatenate((set1, arrayOfReleventData[43]))
+
+set10 = arrayOfReleventData[45]
+set10 = np.concatenate((set1, arrayOfReleventData[46]))
+set10 = np.concatenate((set1, arrayOfReleventData[47]))
+set10 = np.concatenate((set1, arrayOfReleventData[48]))
+
+#making arrays of correct answers
+set1C = arrayOfReleventData[4]
+set2C = arrayOfReleventData[9]
+set3C = arrayOfReleventData[14]
+set4C = arrayOfReleventData[19]
+set5C = arrayOfReleventData[24]
+set6C = arrayOfReleventData[29]
+set7C = arrayOfReleventData[34]
+set8C = arrayOfReleventData[39]
+set9C = arrayOfReleventData[44]
+set10C = arrayOfReleventData[49]
