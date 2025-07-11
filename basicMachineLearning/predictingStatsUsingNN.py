@@ -30,7 +30,7 @@ def deriv_sigmoid(x):
     return fx * (1-fx)
 
 def reverse_sigmoid(x):
-    return np.log(x) - np.log(1-x)
+    return np.log(x / (1-x))
 
 def mseLoss(yTrue, yPred):
     #mean squared error
@@ -322,93 +322,79 @@ arrayOfReleventData = np.array(releventData)
 '''making training sets, I was going to try to set up a for loop to automatically do this but the fact that I am
 skipping a set of data every 4 data sets made it too complicated so it was just easier for me to write it 
 out manually 20 times'''
-set1 = arrayOfReleventData[0]
-set1 = np.concatenate((set1, arrayOfReleventData[1]))
-set1 = np.concatenate((set1, arrayOfReleventData[2]))
-set1 = np.concatenate((set1, arrayOfReleventData[3]))
+set1 = np.array(arrayOfReleventData[0])
+for i in range(1,4):
+    set1 = np.concatenate((set1, np.array(arrayOfReleventData[i])))
 
-set2 = arrayOfReleventData[5]
-set2 = np.concatenate((set1, arrayOfReleventData[6]))
-set2 = np.concatenate((set1, arrayOfReleventData[7]))
-set2 = np.concatenate((set1, arrayOfReleventData[8]))
 
-set3 = arrayOfReleventData[10]
-set3 = np.concatenate((set1, arrayOfReleventData[11]))
-set3 = np.concatenate((set1, arrayOfReleventData[12]))
-set3 = np.concatenate((set1, arrayOfReleventData[13]))
+set2 = np.array(arrayOfReleventData[5])
+for j in range(6,9):
+    set2 = np.concatenate((set2, np.array(arrayOfReleventData[i])))
 
-set4 = arrayOfReleventData[15]
-set4 = np.concatenate((set1, arrayOfReleventData[16]))
-set4 = np.concatenate((set1, arrayOfReleventData[17]))
-set4 = np.concatenate((set1, arrayOfReleventData[18]))
 
-set5 = arrayOfReleventData[20]
-set5 = np.concatenate((set1, arrayOfReleventData[21]))
-set5 = np.concatenate((set1, arrayOfReleventData[22]))
-set5 = np.concatenate((set1, arrayOfReleventData[23]))
+set3 = np.array(arrayOfReleventData[10])
+for k in range(11,14):
+    set3 = np.concatenate((set3, np.array(arrayOfReleventData[i])))
 
-set6 = arrayOfReleventData[25]
-set6 = np.concatenate((set1, arrayOfReleventData[26]))
-set6 = np.concatenate((set1, arrayOfReleventData[27]))
-set6 = np.concatenate((set1, arrayOfReleventData[28]))
+set4 = np.array(arrayOfReleventData[15])
+for l in range(16,19):
+    set4 = np.concatenate((set4, np.array(arrayOfReleventData[i])))
 
-set7 = arrayOfReleventData[30]
-set7 = np.concatenate((set1, arrayOfReleventData[31]))
-set7 = np.concatenate((set1, arrayOfReleventData[32]))
-set7 = np.concatenate((set1, arrayOfReleventData[33]))
+set5 = np.array(arrayOfReleventData[20])
+for m in range(21,24):
+    set5 = np.concatenate((set5, np.array(arrayOfReleventData[i])))
 
-set8 = arrayOfReleventData[35]
-set8 = np.concatenate((set1, arrayOfReleventData[36]))
-set8 = np.concatenate((set1, arrayOfReleventData[37]))
-set8 = np.concatenate((set1, arrayOfReleventData[38]))
+set6 = np.array(arrayOfReleventData[25])
+for n in range(26,29):
+    set6 = np.concatenate((set6, np.array(arrayOfReleventData[i])))
 
-set9 = arrayOfReleventData[40]
-set9 = np.concatenate((set1, arrayOfReleventData[41]))
-set9 = np.concatenate((set1, arrayOfReleventData[42]))
-set9 = np.concatenate((set1, arrayOfReleventData[43]))
+set7 = np.array(arrayOfReleventData[30])
+for o in range(31,34):
+    set7 = np.concatenate((set7, np.array(arrayOfReleventData[i])))
 
-set10 = arrayOfReleventData[45]
-set10 = np.concatenate((set1, arrayOfReleventData[46]))
-set10 = np.concatenate((set1, arrayOfReleventData[47]))
-set10 = np.concatenate((set1, arrayOfReleventData[48]))
+set8 = np.array(arrayOfReleventData[35])
+for p in range(36,39):
+    set8 = np.concatenate((set8, np.array(arrayOfReleventData[i])))
+
+set9 = np.array(arrayOfReleventData[40])
+for q in range(41,44):
+    set9 = np.concatenate((set9, np.array(arrayOfReleventData[i])))
+
+set10 = np.array(arrayOfReleventData[45])
+for r in range(46,49):
+    set10 = np.concatenate((set10, np.array(arrayOfReleventData[i])))
+
+megaSet = np.vstack((set1, set2, set3, set4, set5, set6, set7, set8, set9, set10))
 
 #making arrays of correct answers
-set1C = arrayOfReleventData[4][0]
-set2C = arrayOfReleventData[9][0]
-set3C = arrayOfReleventData[14][0]
-set4C = arrayOfReleventData[19][0]
-set5C = arrayOfReleventData[24][0]
-set6C = arrayOfReleventData[29][0]
-set7C = arrayOfReleventData[34][0]
-set8C = arrayOfReleventData[39][0]
-set9C = arrayOfReleventData[44][0]
-set10C = arrayOfReleventData[49][0]
+set1C = np.array(arrayOfReleventData[4][0])
+set2C = np.array(arrayOfReleventData[9][0])
+set3C = np.array(arrayOfReleventData[14][0])
+set4C = np.array(arrayOfReleventData[19][0])
+set5C = np.array(arrayOfReleventData[24][0])
+set6C = np.array(arrayOfReleventData[29][0])
+set7C = np.array(arrayOfReleventData[34][0])
+set8C = np.array(arrayOfReleventData[39][0])
+set9C = np.array(arrayOfReleventData[44][0])
+set10C = np.array(arrayOfReleventData[49][0])
+megaSetC = np.vstack((set1C, set2C, set3C, set4C, set5C, set6C, set7C, set8C, set9C, set10C))
 
 #training the NN
 network = OurNeuralNetwork()
-network.train(set1, set1C)
-network.train(set2, set2C)
-network.train(set3, set3C)
-network.train(set4, set4C)
-network.train(set5, set5C)
-network.train(set6, set6C)
-network.train(set7, set7C)
-network.train(set8, set8C)
-network.train(set9, set9C)
-network.train(set10, set10C)
+network.train(megaSet, megaSetC)
 
 #make array of acutal answers
 tempAns = scaler.inverse_transform(releventData)
 ansArray = np.array(tempAns)
 
 #make some predicitions
-pred1 = arrayOfReleventData[50]
-pred1 = np.concatenate((pred1, arrayOfReleventData[51]))
-pred1 = np.concatenate((pred1, arrayOfReleventData[52]))
-pred1 = np.concatenate((pred1, arrayOfReleventData[53]))
+pred1 = np.array(arrayOfReleventData[50])
+for s in range(51,54):
+    pred1 = np.concatenate((pred1, np.array(arrayOfReleventData[i])))
 pred1ActAns = ansArray[54][0]
-pred1Guess = reverse_sigmoid(network.feedForward(pred1))
+pred1Guess = network.feedForward(pred1)
 
-print("Actual answer: " + pred1ActAns)
-print("NN Guess: " + pred1Guess)
+print("Actual answer: " + str(pred1ActAns))
+print(str(reverse_sigmoid(pred1Guess)))
+
 
