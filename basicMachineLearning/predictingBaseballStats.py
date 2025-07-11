@@ -53,12 +53,13 @@ sfs = SequentialFeatureSelector(rr, n_features_to_select=20, direction="forward"
 removedColumns = ["Next_WAR", "Name", "Team", "IDfg", "Season"]
 #take all the columns that are not in removedColumns
 selectedColumns = batting.columns[~batting.columns.isin(removedColumns)]
+#makes it so every number is between 1 and 0
 scaler = MinMaxScaler()
-#batting.loc[:, selectedColumns] = scaler.fit_transform(batting[selectedColumns])
 batting[selectedColumns] = scaler.fit_transform(batting[selectedColumns].astype("float32"))
 sfs.fit(batting[selectedColumns], batting["Next_WAR"])
 predictors = list(selectedColumns[sfs.get_support()])
 
+#making the computer make predictions of next seasons WAR
 def backtest(data, model, predictors, start=5, step=1):
     allPredictions = []
     years = sorted(data["Season"].unique())
@@ -83,7 +84,45 @@ def backtest(data, model, predictors, start=5, step=1):
     return pd.concat(allPredictions)
 
 predictions = backtest(batting, rr, predictors)
+#calculating our error
 mean_squared_error(predictions["actual"], predictions["prediction"])
+
+#allowing the computer to use past player history to make more informed predictions about the next seasons WAR, with just back testing the algorithm can only make predictions based on the current years data
+def playerHistory(df):
+    df = df.sort_values("Season")
+    #number to indicate what season this is for a player, ie their first season, second season
+    df["player_season"] = range(0, df.shape[0])
+    #compute WAR correlation
+    df["war_corr"] = list(df[["player_season","WAR"]].expanding().corr().loc[(slice(None), "player_season"), "WAR"])
+    df["war_corr"].fillna(1, inplace=True)
+    #compute WAR difference, takes WAR from current season divided by WAR from previous season
+    df["war_diff"] = df["WAR"] / df["WAR"].shift(1)
+    df["war_diff"].fillna(1, inplace=True)
+    #any values that have infinite values get replaced with a 1
+    df["war_diff"][df["war_diff"] == np.inf] = 1
+    return df
+
+#grouping by player and apply player history
+batting = batting.groupby("IDfg", group_keys=False).apply(playerHistory)
+
+#find averages across a whole season and compare to how player did
+def groupAverages(df):
+    return df["WAR"] / df["WAR"].mean()
+
+#find difference between how this player did in a season vs how the average player did in this season
+batting["war_season"] = batting.groupby("Season", group_keys=False).apply(groupAverages)
+
+#making a list of predictors that we already had and all the new ones we added
+newPredictors = predictors + ["player_season", "war_corr", "war_season", "war_diff"]
+
+#making predictions
+predictions = backtest(batting, rr, newPredictors)
+
+#I'm going to sort the predictions in a way that make it easier to read
+merged = predictions.merge(batting, left_index=True, right_index=True)
+merged["diff"] = (predictions["actual"] - predictions["prediction"]).abs()
+lastMerged = merged[["IDfg", "Season", "Name", "WAR", "Next_WAR", "diff"]]
+lastMerged.to_csv("finalPredictionStats.csv")
 
 
 
