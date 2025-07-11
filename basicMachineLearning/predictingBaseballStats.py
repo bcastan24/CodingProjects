@@ -7,6 +7,7 @@ from sklearn.linear_model import Ridge
 from sklearn.feature_selection import SequentialFeatureSelector
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_squared_error
 
 #defining the start and end year that we want to pull data from
 START = 2002
@@ -57,5 +58,32 @@ scaler = MinMaxScaler()
 batting[selectedColumns] = scaler.fit_transform(batting[selectedColumns].astype("float32"))
 sfs.fit(batting[selectedColumns], batting["Next_WAR"])
 predictors = list(selectedColumns[sfs.get_support()])
+
+def backtest(data, model, predictors, start=5, step=1):
+    allPredictions = []
+    years = sorted(data["Season"].unique())
+    #each time through this loop we are going to use historical data to predict a single season
+    for i in range(start, len(years), step):
+        currentYear = years[i]
+        #out of all the years of data we have we will set a current year somewhere a couple years into the first year that we have and then we are going to use all the data from before the "current year" that we set to train the model
+        train = data[data["Season"] < currentYear]
+        #then we are going to use the trained data to predict the WAR for the "current year" and everytime we loop thru this loop we set the "current year" to the next year and in our data set until we have predictions for all the years past the first "current year" that we set
+        test = data[data["Season"] == currentYear]
+        model.fit(train[predictors], train["Next_WAR"])
+        preds = model.predict(test[predictors])
+        #this returns a numpy array but we're going to set it to a pandas series
+        preds = pd.Series(preds, index=test.index)
+        #combine actual next seasons WAR with our prediction
+        combined = pd.concat([test["Next_WAR"], preds], axis=1)
+        #name the columns
+        combined.columns = ["actual", "prediction"]
+        #add the columns to allPredictions
+        allPredictions.append(combined)
+
+    return pd.concat(allPredictions)
+
+predictions = backtest(batting, rr, predictors)
+mean_squared_error(predictions["actual"], predictions["prediction"])
+
 
 
