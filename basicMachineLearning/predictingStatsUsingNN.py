@@ -29,6 +29,9 @@ def deriv_sigmoid(x):
     fx = sigmoid(x)
     return fx * (1-fx)
 
+def reverse_sigmoid(x):
+    return np.log(x) - np.log(1-x)
+
 def mseLoss(yTrue, yPred):
     #mean squared error
     return ((yTrue - yPred) ** 2).mean()
@@ -370,16 +373,16 @@ set10 = np.concatenate((set1, arrayOfReleventData[47]))
 set10 = np.concatenate((set1, arrayOfReleventData[48]))
 
 #making arrays of correct answers
-set1C = arrayOfReleventData[4]
-set2C = arrayOfReleventData[9]
-set3C = arrayOfReleventData[14]
-set4C = arrayOfReleventData[19]
-set5C = arrayOfReleventData[24]
-set6C = arrayOfReleventData[29]
-set7C = arrayOfReleventData[34]
-set8C = arrayOfReleventData[39]
-set9C = arrayOfReleventData[44]
-set10C = arrayOfReleventData[49]
+set1C = arrayOfReleventData[4][0]
+set2C = arrayOfReleventData[9][0]
+set3C = arrayOfReleventData[14][0]
+set4C = arrayOfReleventData[19][0]
+set5C = arrayOfReleventData[24][0]
+set6C = arrayOfReleventData[29][0]
+set7C = arrayOfReleventData[34][0]
+set8C = arrayOfReleventData[39][0]
+set9C = arrayOfReleventData[44][0]
+set10C = arrayOfReleventData[49][0]
 
 #training the NN
 network = OurNeuralNetwork()
@@ -393,3 +396,19 @@ network.train(set7, set7C)
 network.train(set8, set8C)
 network.train(set9, set9C)
 network.train(set10, set10C)
+
+#make array of acutal answers
+tempAns = scaler.inverse_transform(releventData)
+ansArray = np.array(tempAns)
+
+#make some predicitions
+pred1 = arrayOfReleventData[50]
+pred1 = np.concatenate((pred1, arrayOfReleventData[51]))
+pred1 = np.concatenate((pred1, arrayOfReleventData[52]))
+pred1 = np.concatenate((pred1, arrayOfReleventData[53]))
+pred1ActAns = ansArray[54][0]
+pred1Guess = reverse_sigmoid(network.feedForward(pred1))
+
+print("Actual answer: " + pred1ActAns)
+print("NN Guess: " + pred1Guess)
+
