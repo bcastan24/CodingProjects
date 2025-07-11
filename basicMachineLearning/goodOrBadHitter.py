@@ -1,4 +1,5 @@
 #making a basic neural network to understand the concepts
+#I did this all in another file that was in my GitHub but I moved it to this directory  and deleted the old one to group all my ML projects together
 import numpy
 import numpy as np
 
