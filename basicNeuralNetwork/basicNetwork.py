@@ -152,4 +152,17 @@ michaelATaylor = np.array([-8, -1])
 print("James Wood: %.3f" % network.feedForward(jamesWood))
 print("Michael A Taylor: %.3f" % network.feedForward(michaelATaylor))
 
+nameOfPlayer = input("Please input the players name: ")
+opsPlusString = input("Please input their OPS+: ")
+opsPlus = int(opsPlusString) - 100
+exitVeloString = input("Please input their average exit velocity: ")
+exitVelo = float(exitVeloString) - 89
+playerArray = np.array([opsPlus, exitVelo])
+print(nameOfPlayer + ": %.3f" % network.feedForward(playerArray))
+if (network.feedForward(playerArray) < 0.5):
+    print(nameOfPlayer + " is not a good hitter.")
+else:
+    print(nameOfPlayer + " is a good hitter.")
+
+
 
