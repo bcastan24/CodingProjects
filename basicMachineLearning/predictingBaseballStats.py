@@ -10,8 +10,8 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
 #defining the start and end year that we want to pull data from
-START = 2002
-END = 2004
+START = 2014
+END = 2024
 
 #downloading the data
 batting = batting_stats(START, END, qual=200)
