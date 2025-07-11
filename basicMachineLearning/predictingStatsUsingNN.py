@@ -122,3 +122,164 @@ class OurNeuralNetwork:
             h3 = sigmoid(np.dot(self.wh3, x) + self.b3)
             o1 = sigmoid(self.w49 * h1 + self.w50 * h2 + self.w51 * h3 + self.b4)
             return o1
+
+        def train(self, data, allYTrues):
+            # where data is a (n x 16) numpy array and n is number of samples and where allYTrues is a numpy array with n elements
+            learnRate = 0.1
+            epochs = 1000
+
+            for epoch in range(epochs):
+                for x, yTrue in zip(data, allYTrues):
+                    # do a feedforward
+                    sum_h1 = np.dot(self.wh1, x)
+                    h1 = sigmoid(sum_h1)
+
+                    sum_h2 = np.dot(self.wh2, x)
+                    h2 = sigmoid(sum_h2)
+
+                    sum_h3 = np.dot(self.wh3, x)
+                    h3 = sigmoid(sum_h3)
+
+                    sum_o1 = self.w49 * h1 + self.w50 * h2 + self.w51 * h3 + self.b4
+                    o1 = sigmoid(sum_o1)
+                    yPred = o1
+
+                    # calculate the partial derivatives
+                    d_L_d_yPred = -2 * (yTrue - yPred)
+
+                    # neuron o1
+                    d_yPred_d_w49 = h1 * deriv_sigmoid(sum_o1)
+                    d_yPred_d_w50 = h2 * deriv_sigmoid(sum_o1)
+                    d_yPred_d_w51 = h3 * deriv_sigmoid(sum_o1)
+                    d_yPred_d_b4 = deriv_sigmoid(sum_o1)
+
+                    d_yPred_d_h1 = self.w49 * deriv_sigmoid(sum_o1)
+                    d_yPred_d_h2 = self.w50 * deriv_sigmoid(sum_o1)
+                    d_yPred_d_h3 = self.w51 * deriv_sigmoid(sum_o1)
+
+                    # neuron h1
+                    d_h1_d_w1 = x[0] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w2 = x[1] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w3 = x[2] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w4 = x[3] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w5 = x[4] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w6 = x[5] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w7 = x[6] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w8 = x[7] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w9 = x[8] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w10 = x[9] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w11 = x[10] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w12 = x[11] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w13 = x[12] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w14 = x[13] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w15 = x[14] * deriv_sigmoid(sum_h1)
+                    d_h1_d_w16 = x[15] * deriv_sigmoid(sum_h1)
+                    d_h1_d_b1 = deriv_sigmoid(sum_h1)
+
+                    # neuron h2
+                    d_h2_d_w17 = x[0] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w18 = x[1] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w19 = x[2] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w20 = x[3] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w21 = x[4] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w22 = x[5] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w23 = x[6] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w24 = x[7] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w25 = x[8] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w26 = x[9] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w27 = x[10] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w28 = x[11] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w29 = x[12] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w30 = x[13] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w31 = x[14] * deriv_sigmoid(sum_h2)
+                    d_h2_d_w32 = x[15] * deriv_sigmoid(sum_h2)
+                    d_h2_d_b2 = deriv_sigmoid(sum_h2)
+
+                    #neuron h3
+                    d_h3_d_w33 = x[0] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w34 = x[1] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w35 = x[2] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w36 = x[3] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w37 = x[4] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w38 = x[5] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w39 = x[6] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w40 = x[7] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w41 = x[8] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w42 = x[9] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w43 = x[10] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w44 = x[11] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w45 = x[12] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w46 = x[13] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w47 = x[14] * deriv_sigmoid(sum_h3)
+                    d_h3_d_w48 = x[15] * deriv_sigmoid(sum_h3)
+                    d_h3_d_b3 = deriv_sigmoid(sum_h3)
+
+                    # update weights and biases
+                    # neuron h1
+                    self.w1 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w1
+                    self.w2 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w2
+                    self.w3 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w3
+                    self.w4 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w4
+                    self.w5 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w5
+                    self.w6 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w6
+                    self.w7 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w7
+                    self.w8 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w8
+                    self.w9 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w9
+                    self.w10 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w10
+                    self.w11 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w11
+                    self.w12 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w12
+                    self.w13 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w13
+                    self.w14 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w14
+                    self.w15 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w15
+                    self.w16 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_w16
+                    self.b1 -= learnRate * d_L_d_yPred * d_yPred_d_h1 * d_h1_d_b1
+
+                    # neuron h2
+                    self.w17 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w17
+                    self.w18 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w18
+                    self.w19 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w19
+                    self.w20 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w20
+                    self.w21 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w21
+                    self.w22 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w22
+                    self.w23 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w23
+                    self.w24 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w24
+                    self.w25 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w25
+                    self.w26 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w26
+                    self.w27 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w27
+                    self.w28 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w28
+                    self.w29 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w29
+                    self.w30 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w30
+                    self.w31 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w31
+                    self.w32 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_w32
+                    self.b2 -= learnRate * d_L_d_yPred * d_yPred_d_h2 * d_h2_d_b2
+
+                    #neuron h3
+                    self.w33 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w33
+                    self.w34 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w34
+                    self.w35 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w35
+                    self.w36 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w36
+                    self.w37 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w37
+                    self.w38 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w38
+                    self.w39 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w39
+                    self.w40 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w40
+                    self.w41 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w41
+                    self.w42 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w42
+                    self.w43 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w43
+                    self.w44 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w44
+                    self.w45 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w45
+                    self.w46 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w46
+                    self.w47 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w47
+                    self.w48 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_w48
+                    self.b3 -= learnRate * d_L_d_yPred * d_yPred_d_h3 * d_h3_d_b3
+
+                    # neuron o1
+                    self.w49 -= learnRate * d_L_d_yPred * d_yPred_d_w49
+                    self.w50 -= learnRate * d_L_d_yPred * d_yPred_d_w50
+                    self.w51 -= learnRate * d_L_d_yPred * d_yPred_d_w51
+                    self.b4 -= learnRate * d_L_d_yPred * d_yPred_d_b4
+
+                    # calculate total loss at end of each epoch
+                    if epoch % 10 == 0:
+                        yPreds = np.apply_along_axis(self.feedForward, 1, data)
+                        loss = mseLoss(allYTrues, yPreds)
+                        # print("Epoch %d loss: %.3f" % (epoch, loss))
