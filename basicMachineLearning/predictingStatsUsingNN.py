@@ -16,6 +16,7 @@ I do realize this is non-optimal, but I am still very new to NN, so I want to do
 import pandas as pd
 import numpy as np
 from pybaseball import batting_stats
+from sklearn.preprocessing import MinMaxScaler
 
 #I am going to copy a lot of code from goodOrBadHitter.py to save time, I will tweak it to fit my new project
 #making activation function
@@ -283,3 +284,34 @@ class OurNeuralNetwork:
                         yPreds = np.apply_along_axis(self.feedForward, 1, data)
                         loss = mseLoss(allYTrues, yPreds)
                         # print("Epoch %d loss: %.3f" % (epoch, loss))
+
+#Gathering and cleaning the data
+#Note I wrote this code in a test file and copied it here when I got it working
+#defining the start and end year that we want to pull data from
+START = 2020
+END = 2024
+
+#downloading the data
+batting = batting_stats(START, END, qual=200)
+batting.to_csv("batting.csv")
+#splitting data into groups based on player id and removing players that have less than 4 seasons of data on
+batting = batting.groupby("IDfg", as_index=False).filter(lambda x: x.shape[0] > 4)
+
+#Machine Learning target
+def nextSeason(player):
+    player = player.sort_values("Season")
+    player["Next_WAR"] = player["WAR"].shift(-1)
+    return player
+
+batting = batting.groupby("IDfg").apply(nextSeason, include_groups=False)
+
+#Cleaning Data
+#taking out columns that we don't need to run through ML
+selectedColumns = ["WAR", "OPS", "BABIP", "wRC+"]
+#makes it so every number is between 1 and 0
+scaler = MinMaxScaler()
+batting[selectedColumns] = scaler.fit_transform(batting[selectedColumns].astype("float32"))
+
+#batting[selectedColumns].to_csv("test.csv")
+releventData = batting[selectedColumns].copy()
+arrayOfReleventData = np.array(releventData)
