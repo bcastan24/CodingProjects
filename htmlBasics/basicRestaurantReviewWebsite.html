@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Survey Form</title>
+  </head>
+
+  <body>
+    <section>
+      <h1 id="title">Restaurant Review</h1>
+      <p id="description">Thank you for visiting our restaurant, please take to the time to rate your experience.</p>
+    </section>
+
+    <main>
+      <form id="survey-form">
+        <fieldset>
+          <legend>Personal Information</legend>
+          <label for="name" id="name-label">Name (required):</label>
+          <input  required type="text" id="name" placeholder="Ex: John Doe">
+          <label for="email" id="email-label">Email (required):</label>
+          <input required type="email" id="email" placeholder="example@email.com">
+          <label for="age" id="number-label">Age (optional):</label>
+          <input type="number" id="number" min="1" max="3" placeholder="Ex:25">
+        </fieldset>
+
+        <fieldset>
+          <legend>Recommending</legend>
+          <label for="recommend">How likely are you to recommend this restuarant to others?</label>
+          <select name="recommend" id="dropdown">
+            <option value="never">Never</option>
+            <option value="not-likely">Not Likely</option>
+            <option selected value="likely">Likely</option>
+            <option value="extremely-likely">Extremely Likely</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Mailing List</legend>
+          <label>Would you like to join our mailing list?</label>
+          <input type="radio" id="yes-option" value="yes-option" name="mailing-list">
+          <label for="yes-option">Yes</label>
+          <input type="radio" id="no-option" value="no-option" name="mailing-list">
+          <label for="no-option">No</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your Experience</legend>
+          <label>What were the best parts of your experience? (select all that apply):</label>
+          <input type="checkbox" id="food-quality" value="food-quality">
+          <label for="food-quality">Food Quality</label>
+          <input type="checkbox" id="drink-quality" value="drink-quality">
+          <label>Drink Quality</label>
+          <input type="checkbox" id="service" value="service">
+          <label for="service">Service</label>
+        </fieldset>
+
+        <fieldset>
+          <label for="comments">Any additional comments?</label>
+          <textarea cols="30" rows="10" id="comments"></textarea>
+        </fieldset>
+
+        <button  id="submit" type="submit">Submit</button>
+        
+      </form>
+    </main>
+  </body>
+</html>
