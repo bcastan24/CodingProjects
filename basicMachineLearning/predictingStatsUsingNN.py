@@ -378,15 +378,22 @@ network.train(xTrain, yTrain)
 xTest, yTest = createTrainingSets(selectedTestScaled, targetTestScaled)
 
 if len(xTest) > 0:
-    #make prediciton
-    scaledPred = network.feedForward(xTest[0])
-    #convert prediction to real WAR value
-    realPred = targetScaler.inverse_transform([[scaledPred]])[0][0]
-    actualRealWAR = targetScaler.inverse_transform([[yTest[0]]])[0][0]
+    print(f"\nPredictions for all test samples:")
 
-    print(f"\nPrediction Results:")
-    print(f"Predicted WAR: {realPred:.3f}")
-    print(f"Actual WAR: {actualRealWAR:.3f}")
+    allPreds = []
+    allReals = []
+
+    for j in range(len(xTest)):
+        #make prediciton
+        scaledPred = network.feedForward(xTest[j])
+        #convert prediction to real WAR value
+        realPred = targetScaler.inverse_transform([[scaledPred]])[0][0]
+        actualRealWAR = targetScaler.inverse_transform([[yTest[j]]])[0][0]
+
+        allPreds.append(realPred)
+        allReals.append(actualRealWAR)
+
+        print(f"Sample {j+1:2d}: Predicted WAR: {realPred:6.3f} | Actual WAR: {actualRealWAR:6.3f} | Difference: {abs(realPred-actualRealWAR):6.3f}")
 
 #a function to make predictions with new data sets
 def predictWAR(network, featureScaler, targetScaler, playerStats):
