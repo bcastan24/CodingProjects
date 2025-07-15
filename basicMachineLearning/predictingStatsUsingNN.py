@@ -289,7 +289,7 @@ class OurNeuralNetwork:
 #Gathering and cleaning the data
 #Note I wrote this code in a test file and copied it here when I got it working
 #defining the start and end year that we want to pull data from
-START = 2020
+START = 2015
 END = 2024
 
 #downloading the data
