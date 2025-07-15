@@ -51,4 +51,42 @@ plt.xlabel('Date',fontsize=18)
 plt.ylabel('Mid Price',fontsize=18)
 plt.show()
 
+#splitting data in training and testing sets
+#calculate the mid prices from highest and lowest
+highPrices = df.loc[:,'High'].as_matrix()
+lowPrices = df.loc[:,'Low'].as_matrix()
+midPrices = (highPrices + lowPrices) / 2.0
+#first 11,000 points will be training and the rest will be testing data
+trainData = midPrices[:11000]
+testData = midPrices[11000:]
+
+#scale between 0 and 1
+scaler = MinMaxScaler()
+trainData = trainData.reshape(-1,1)
+testData = testData.reshape(-1,1)
+
+#break up 11,000 data points into 4 different windows of 2500 each, this will ensure that data earlier in the stock's
+#history will be useful instead of being near 0
+smoothingWindowSize = 2500
+for di in range(0,10000,smoothingWindowSize):
+    scaler.fit(trainData[di:di+smoothingWindowSize,:])
+    trainData[di:di+smoothingWindowSize,:] = scaler.transform(trainData[di:di+smoothingWindowSize,:])
+#normalize the last bit of data
+scaler.fit(trainData[di+smoothingWindowSize:,:])
+trainData[di+smoothingWindowSize:,:] = scaler.transform(trainData[di+smoothingWindowSize:,:])
+
+#reshape data
+trainData = trainData.reshape(-1)
+testData = testData.reshape(-1)
+
+#now performing exponential moving average smoothing so data will have a smoother curve
+EMA = 0.0
+gamma = 0.1
+for ti in range(11000):
+    EMA = gamma*trainData[ti] + (1-gamma)*EMA
+    trainData[ti] = EMA
+
+allMidData = np.concatenate([trainData,testData],axis=0)
+
+
 
