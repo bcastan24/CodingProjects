@@ -388,4 +388,14 @@ if len(xTest) > 0:
     print(f"Predicted WAR: {realPred:.3f}")
     print(f"Actual WAR: {actualRealWAR:.3f}")
 
+#a function to make predictions with new data sets
+def predictWAR(network, featureScaler, targetScaler, playerStats):
+    playerStatsScaled = featureScaler.transform(playerStats.reshape(4, 4)).flatten()
+    #make prediction
+    predScaled = network.feedForward(playerStatsScaled)
+    #convert back to real WAR value
+    predReal = targetScaler.inverse_transform([[predScaled]])[0][0]
+
+    return predReal
+
 
