@@ -8,7 +8,7 @@ from keras import layers
 #Gathering and cleaning the data
 #Note I copied this code from predictingStatsUsingNN.py in the basicMachineLearning folder
 #defining the start and end year that we want to pull data from
-START = 2015
+START = 2004
 END = 2024
 
 #downloading the data
@@ -75,6 +75,7 @@ def createTrainingSets(selected, targets, sequenceLength = 4):
 
 #create training sets
 xTrain, yTrain = createTrainingSets(trainSelected, trainTargets)
+xTest, yTest = createTrainingSets(testSelected, testTargets)
 
 
 
@@ -86,3 +87,16 @@ def buildAndCompileModel():
 
 nnWARModel = buildAndCompileModel()
 nnWARModel.summary()
+
+#train the model
+print("\nStarting Training...")
+history = nnWARModel.fit(xTrain, yTrain, validation_data=(xTest, yTest), epochs=1000, batch_size=30, verbose=1)
+
+#make predictions
+predictions = nnWARModel.predict(xTest)
+avgDiff = 0.0
+print(f"\nSample predictions vs Actual")
+for j in range(50):
+    print(f"Predicted: {predictions[j][0]:.3f}, Actual: {yTest[j]:.3f}, Difference: {predictions[j][0] - yTest[j]:.3f}")
+    avgDiff += predictions[j][0] - yTest[j]
+print(f"Average Difference: {abs(avgDiff / 50):.3f}")
