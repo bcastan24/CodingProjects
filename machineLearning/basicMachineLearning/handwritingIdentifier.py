@@ -23,3 +23,25 @@ model = keras.models.Sequential([
 ])
 
 model.summary()
+
+#loss and optimizing
+#from_logits is included because in our model we did not include the softmax layer which gives us probabilties
+loss = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+optim = keras.optimizers.Adam(0.001)
+metrics = ["accuracy"]
+
+model.compile(loss=loss, optimizer=optim, metrics=metrics)
+
+#training the model
+batchSize = 64
+epochs = 10
+
+model.fit(xTrain, yTrain, batch_size=batchSize, epochs=epochs, shuffle=True, verbose=2)
+
+#evaluate the model
+model.evaluate(xTest, yTest, batch_size=batchSize, verbose=2)
+
+#make predictions
+predictions = model.predict(xTest, batch_size=batchSize)
+#since we didn't add the softmax layer when we made the model we have to add it here
+predictions = tf.nn.softmax(predictions)
