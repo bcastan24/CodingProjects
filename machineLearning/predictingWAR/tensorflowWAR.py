@@ -23,7 +23,7 @@ def nextSeason(player):
     player["Next_WAR"] = player["WAR"].shift(-1)
     return player
 
-batting = batting.groupby("IDfg").apply(nextSeason, include_groups=False)
+batting = batting.groupby("IDfg").apply(nextSeason, include_groups=False).reset_index()
 
 #remove rows where Next_WAR is NaN
 batting = batting.dropna(subset=['Next_WAR'])
@@ -58,23 +58,31 @@ testingData = batting.iloc[split:]
 #get selected data and convert to numpy arrays
 trainSelected = trainingData[selectedColumns].values
 testSelected = testingData[selectedColumns].values
-trainTargets = trainingData[targetColumn].values.reshape(-1,1)
-testTargets = testingData[targetColumn].values.reshape(-1,1)
+trainTargets = trainingData[targetColumn].values
+testTargets = testingData[targetColumn].values
 
 #create training sets
 def createTrainingSets(selected, targets, sequenceLength = 4):
     X = []
     y = []
-    for i in range(0, len(selected) - sequenceLength + 1, 5):
-        if i + sequenceLength < len(selected):
-            #make the first four years of selectedColumns into one vector
-            sequence = selected[i:i+sequenceLength].flatten()
-            #get the fifth season WAR
-            target = targets[i+sequenceLength]
-            X.append(sequence)
-            y.append(target)
-    return np.array(X), np.array(y).flatten()
+    for i in range(len(selected) - sequenceLength + 1):
+        sequence = selected[i:i+sequenceLength].flatten()
+        target = targets[i+sequenceLength-1]
 
-#create normalizer layer
-normalizer = keras.layers.Normalization(axis=-1)
+        X.append(sequence)
+        y.append(target)
+    return np.array(X), np.array(y)
 
+#create training sets
+xTrain, yTrain = createTrainingSets(trainSelected, trainTargets)
+
+
+
+#make deep neural network regression
+def buildAndCompileModel():
+    model = keras.Sequential([layers.Dense(64, activation='relu', input_shape=(xTrain.shape[1],)), layers.Dense(64, activation='relu'), layers.Dense(64, activation='relu'),layers.Dense(1)])
+    model.compile(loss='mean_absolute_error', optimizer=keras.optimizers.Adam(0.001), metrics=['mae'])
+    return model
+
+nnWARModel = buildAndCompileModel()
+nnWARModel.summary()
