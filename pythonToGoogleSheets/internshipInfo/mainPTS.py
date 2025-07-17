@@ -6,9 +6,5 @@ import googleTools as gt
 import linkedList as ll
 
 gt.updateFile()
-firstNode = ll.Node("Optiver", "Chicago", "Soft. Eng.", "?", "?", "?", "C++, Python, Java, CS fundamentals", "link here")
-linkedList = ll.DoublyLinkedList(firstNode)
-linkedList.printLL()
-linkedList.addNewInternship()
-linkedList.printLL()
+
 

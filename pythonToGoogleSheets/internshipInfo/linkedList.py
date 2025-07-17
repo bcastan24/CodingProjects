@@ -79,3 +79,11 @@ class DoublyLinkedList:
                 #otherwise keep parsing list
                 else:
                     currentNode = currentNode.next
+
+    def addAtEnd(self, company:str, loc:str, title:str, length:str, start:str, pay:str, reqSkills:str, link:str) -> None:
+        newNode = Node(company, loc, title, length, start, pay, reqSkills, link)
+        currentNode = self.tail
+        self.tail = newNode
+        currentNode.next = newNode
+        newNode.prev = currentNode
+        self.updateRanks()
