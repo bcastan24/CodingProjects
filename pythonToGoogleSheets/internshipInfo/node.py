@@ -8,6 +8,8 @@ class Node:
         self.pay = pay
         self.requiredSkills = requiredSkills
         self.link = link
-        self.next = None
+        self.next:Node = None
+        self.prev:Node = None
+        self.rank:int = None
 
 
