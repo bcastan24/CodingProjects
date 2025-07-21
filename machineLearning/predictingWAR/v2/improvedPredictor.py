@@ -2,11 +2,13 @@
 In the older file the NN has an average difference of 0.75ish I want to get that number down
 I will also be using different strategies to clean the data and be using more CS fundamentals,
 this file will be less rushed and just trying to learn the fundamentals of NN, I will take my time on this one'''
-import keras as keras
-from keras import layers
 import gatherAndCleanData as gcd
+import makeAndTrainNN as nn
 
 data = gcd.Data()
 data.cleanData()
-xTrain, yTrain = data.createTrainingSets()
-print(xTrain)
+xTrain, yTrain, xTest, yTest = data.createTrainingSets()
+predictionModel = nn.buildAndCompileModel(xTrain)
+predictionModel = nn.trainNN(predictionModel, xTrain, yTrain, xTest, yTest)
+nn.makePredictions(predictionModel, xTest, yTest)
+

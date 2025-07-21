@@ -70,6 +70,8 @@ class Data:
         selected, targets, xTest, yTest = self.cleanData()
         X = []
         y = []
+        a = []
+        b = []
         for i in range(len(selected) - sequenceLength + 1):
             sequence = selected[i:i + sequenceLength].flatten()
             #normalizing values so they hover around 0, for some reason the switch case was giving me errors
@@ -95,4 +97,30 @@ class Data:
 
             X.append(sequence)
             y.append(target)
-        return np.array(X), np.array(y)
+
+        for k in range(len(xTest) - sequenceLength + 1):
+            sequence = selected[k:k + sequenceLength].flatten()
+            #normalizing values so they hover around 0, for some reason the switch case was giving me errors
+            #so I just put a bunch of elif statements instead
+            for j in range(len(sequence)):
+                if (j == 0 or j % 7 == 0):
+                    sequence[j] -= 29.0
+                elif (j == 1 or j == 8 or j == 15 or j == 22):
+                    sequence[j] -= 2.0
+                elif (j == 2 or j == 9 or j == 16 or j == 23):
+                    sequence[j] = (sequence[j] * 10) - 3.2
+                elif (j == 3 or j == 10 or j == 17 or j == 24):
+                    sequence[j] -= 89.0
+                elif (j == 4 or j == 11 or j == 18 or j == 25):
+                    sequence[j] -= 100.0
+                elif (j == 5 or j == 12 or j == 19 or j == 26):
+                    sequence[j] -= 100.0
+                elif (j == 6 or j == 13 or j == 20 or j == 27):
+                    sequence[j] -= 100.0
+
+            target = targets[k + sequenceLength - 1]
+            target -= 2.0
+
+            a.append(sequence)
+            b.append(target)
+        return np.array(X), np.array(y), np.array(a), np.array(b)
