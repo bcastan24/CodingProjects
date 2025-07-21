@@ -87,3 +87,8 @@ class DoublyLinkedList:
         currentNode.next = newNode
         newNode.prev = currentNode
         self.updateRanks()
+
+    def deleteAtEnd(self):
+        currentNode = self.tail.prev
+        self.tail = currentNode
+        currentNode.next = None
