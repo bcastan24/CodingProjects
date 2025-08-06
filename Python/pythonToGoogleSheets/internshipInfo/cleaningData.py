@@ -1,6 +1,6 @@
 import pandas as pd
 import linkedList as ll
-from pythonToGoogleSheets.internshipInfo.linkedList import DoublyLinkedList
+from Python.pythonToGoogleSheets.internshipInfo.linkedList import DoublyLinkedList
 
 
 def putDataInLL():
