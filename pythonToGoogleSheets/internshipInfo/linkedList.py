@@ -58,7 +58,7 @@ class DoublyLinkedList:
             #set newNode.next as previous head and previous head.prev as newNode
             newNode.next = tempNode
             tempNode.prev = newNode
-            newNode.rank == newRank
+            newNode.rank = newRank
             self.updateRanks()
         #if they want to assign it to any rank inbetween
         else:
